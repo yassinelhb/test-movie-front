@@ -1,0 +1,71 @@
+<div class="container">
+  <h1>Movies</h1>
+  <div class="row justify-content-end">
+    <div class="col-6">
+      <h3>Statistiques</h3>
+      <button class="btn btn-primary mr-2" (click)="openModal('stat1')">
+        Top 5 des films les plus diffusés
+      </button>
+      <button class="btn btn-primary mr-2" (click)="openModal('stat2')">
+        Top 5 des films avec le meilleur ratio
+      </button>
+      <button class="btn btn-primary" (click)="openModal('stat3')">
+        Top 5 des réalisateurs avec la meilleur moyenne de diffusion
+      </button>
+    </div>
+  </div>
+  <div class="col-12 mt-5">
+    <h3 class="mb-4">Rechercher</h3>
+    <div class="row">
+      <div class="col-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nom du film"
+          [(ngModel)]="nom"
+        />
+      </div>
+      <div class="col-4">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Réalisateur"
+          [(ngModel)]="realisateur"
+        />
+      </div>
+      <div class="col-4">
+        <select [(ngModel)]="nationalite" class="form-control">
+          <option value="">selectionnez une nationnalite</option>
+          <option *ngFor="let c of countries" [value]="c">
+            {{ c }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom du film</th>
+        <th>Réalisateur</th>
+        <th>Année de production</th>
+        <th>Nationalité</th>
+        <th>Dernière diffusion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading; else data">
+        <td colspan="5">Loading...</td>
+      </tr>
+      <ng-template #data>
+        <tr *ngFor="let movie of movies | filter: nom:realisateur:nationalite">
+          <td>{{ movie.nom }}</td>
+          <td>{{ movie.realisateur }}</td>
+          <td>{{ movie.annee_production }}</td>
+          <td>{{ movie.nationalite }}</td>
+          <td>{{ movie.derniere_diffusion }}</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>
